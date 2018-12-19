@@ -7,14 +7,11 @@
 
         <variable
             name="viewmodel"
-            type="com.aliumujib.tabbarseed.ui.main.fragments.videos.VideosViewModel" />
+            type="com.aliumujib.tabbarseed.ui.main.fragments.me.MeViewModel" />
 
     </data>
+<LinearLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-    </LinearLayout>
-</layout>
+</LinearLayout></layout>

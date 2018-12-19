@@ -39,7 +39,7 @@ class DiscoverFragment : BaseMVVMFragment<DiscoverViewModel>() {
 
 
     override val layoutResID: Int
-        get() = R.layout.fragment_videos_list
+        get() = R.layout.fragment_discover
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

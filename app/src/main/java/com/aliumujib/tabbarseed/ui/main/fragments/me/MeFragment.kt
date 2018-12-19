@@ -39,7 +39,7 @@ class MeFragment : BaseMVVMFragment<MeViewModel>() {
 
 
     override val layoutResID: Int
-        get() = R.layout.fragment_videos_list
+        get() = R.layout.fragment_me
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
