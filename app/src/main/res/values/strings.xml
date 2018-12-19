@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Seed</string>
+
+    <array name="tab_name">
+        <item>Videos</item>
+        <item>Podcasts</item>
+        <item>Discover</item>
+        <item>Me</item>
+    </array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="check_internet">Please check your connection</string>
+
+
+</resources>
