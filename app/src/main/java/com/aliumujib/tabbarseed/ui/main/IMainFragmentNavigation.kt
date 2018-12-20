@@ -1,17 +1,23 @@
 package com.aliumujib.tabbarseed.ui.main
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.aliumujib.tabbarseed.R
+import com.aliumujib.tabbarseed.data.model.PlayList
+import com.aliumujib.tabbarseed.data.model.PlayListItem
 import com.aliumujib.tabbarseed.ui.main.fragments.discover.DiscoverFragment
 import com.aliumujib.tabbarseed.ui.main.fragments.me.MeFragment
+import com.aliumujib.tabbarseed.ui.main.fragments.playlistdetails.PlaylistDetailsFragment
 import com.aliumujib.tabbarseed.ui.main.fragments.podcasts.PodcastsFragment
 import com.aliumujib.tabbarseed.ui.main.fragments.videos.VideosFragment
 import com.aliumujib.tabbarseed.utils.FragNavController
 import com.aliumujib.tabbarseed.utils.FragmentHistory
+import kotlinx.android.synthetic.main.activity_main_constraints.*
+import kotlinx.android.synthetic.main.weird_toolbar.*
 
 
 interface IMainFragmentNavigation {
@@ -24,6 +30,10 @@ interface IMainFragmentNavigation {
     fun isOnRootFragment(): Boolean
     fun setUp()
     fun onSaveInstanceState(outState: Bundle)
+    fun hideMainToolbar()
+    fun showMainToolbar()
+    fun playVideo(data: PlayListItem)
+    fun openPlayListDetails(data: PlayList)
 }
 
 /**
@@ -36,7 +46,25 @@ class MainFragmentNavigation(private var activity: MainActivity,
         FragNavController.TransactionListener,
         FragNavController.RootFragmentListener {
 
-    val toolbar = activity.findViewById<Toolbar>(R.id.toolbar)
+
+    override fun playVideo(data: PlayListItem) {
+
+    }
+
+    override fun openPlayListDetails(data: PlayList) {
+        pushFragment(PlaylistDetailsFragment.openVideoPlayListDetails())
+    }
+
+
+    override fun hideMainToolbar() {
+        toolbar?.visibility = View.GONE
+    }
+
+    override fun showMainToolbar() {
+        toolbar?.visibility = View.VISIBLE
+    }
+
+    var toolbar: View? = null
 
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -94,8 +122,10 @@ class MainFragmentNavigation(private var activity: MainActivity,
     private var supportActionBar: ActionBar? = null
 
     override fun setUp() {
+
         fragmentHistory = FragmentHistory()
 
+        toolbar = activity.include2
 
         navController = FragNavController.newBuilder(bundle,
                 activity.supportFragmentManager,
@@ -120,7 +150,7 @@ class MainFragmentNavigation(private var activity: MainActivity,
     }
 
     private fun updateToolbar() {
-        if(navController!=null){
+        if (navController != null) {
             supportActionBar!!.setDisplayHomeAsUpEnabled(!navController!!.isRootFragment)
             supportActionBar!!.setDisplayShowHomeEnabled(!navController!!.isRootFragment)
             supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_arrow_back)

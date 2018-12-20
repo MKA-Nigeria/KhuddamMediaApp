@@ -9,7 +9,7 @@
     app:layout_scrollFlags="scroll|enterAlways"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
     app:titleTextColor="@color/black"
-    tools:showIn="@layout/activity_main">
+    tools:showIn="@layout/activity_main_constraints">
 
 
     <RelativeLayout

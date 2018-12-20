@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="clickListener"
+            type="com.aliumujib.tabbarseed.ui.main.fragments.videos.OnPlaylistClickListener" />
+
 
         <variable
             name="item"
@@ -25,6 +29,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> clickListener.onItemClicked(item)}"
                 android:src="@drawable/bottom_shadow"
                 bind:imageUrl="@{item.snippet.thumbnails.defaultThumb.url}" />
 
@@ -35,7 +40,7 @@
             android:id="@+id/textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{item.snippet.title}"
@@ -51,7 +56,6 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:text="@{item.contentDetails.itemCount + ` videos`}"
             bind:layout_constraintEnd_toEndOf="@+id/textView"
             bind:layout_constraintStart_toStartOf="@+id/textView"

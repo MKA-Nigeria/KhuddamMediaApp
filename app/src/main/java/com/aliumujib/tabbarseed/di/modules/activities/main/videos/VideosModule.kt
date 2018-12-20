@@ -9,6 +9,8 @@ import com.aliumujib.tabbarseed.data.model.PlayListItem
 import com.aliumujib.tabbarseed.di.scopes.PerFragment
 import com.aliumujib.tabbarseed.ui.adapter.base.SingleLayoutAdapter
 import com.aliumujib.tabbarseed.ui.main.IMainFragmentNavigation
+import com.aliumujib.tabbarseed.ui.main.fragments.videos.OnPlaylistClickListener
+import com.aliumujib.tabbarseed.ui.main.fragments.videos.OnVideoClickListener
 import com.aliumujib.tabbarseed.ui.main.fragments.videos.VideosFragment
 import com.aliumujib.tabbarseed.ui.main.fragments.videos.VideosViewModel
 import com.aliumujib.tabbarseed.utils.ViewModelFactory
@@ -37,15 +39,27 @@ class VideosModule {
 
     @PerFragment
     @Provides
-    fun providesPlayListAdapter(): SingleLayoutAdapter<PlayList> {
-        return SingleLayoutAdapter(R.layout.item_video_playlist)
+    fun providesPlayListAdapter(onPlaylistClickListener: OnPlaylistClickListener): SingleLayoutAdapter<PlayList> {
+        return SingleLayoutAdapter(R.layout.item_video_playlist, onPlaylistClickListener)
+    }
+
+    @PerFragment
+    @Provides
+    fun providesOnPlaylistClickListener(mainFragmentNavigation: IMainFragmentNavigation): OnPlaylistClickListener {
+        return OnPlaylistClickListener(mainFragmentNavigation)
+    }
+
+    @PerFragment
+    @Provides
+    fun providesOnVideoClickListener(mainFragmentNavigation: IMainFragmentNavigation): OnVideoClickListener {
+        return OnVideoClickListener(mainFragmentNavigation)
     }
 
 
     @PerFragment
     @Provides
-    fun providesPlayListItemAdapter(): SingleLayoutAdapter<PlayListItem> {
-        return SingleLayoutAdapter(R.layout.item_video)
+    fun providesPlayListItemAdapter(onVideoClickListener: OnVideoClickListener): SingleLayoutAdapter<PlayListItem> {
+        return SingleLayoutAdapter(R.layout.item_video, onVideoClickListener)
     }
 
 }

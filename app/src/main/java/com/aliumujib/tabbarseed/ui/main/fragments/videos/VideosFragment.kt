@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.aliumujib.tabbarseed.R
 import com.aliumujib.tabbarseed.data.model.PlayList
 import com.aliumujib.tabbarseed.data.model.PlayListItem
+import com.aliumujib.tabbarseed.ui.adapter.base.BindableItemClickListener
 import com.aliumujib.tabbarseed.ui.adapter.base.SingleLayoutAdapter
 import com.aliumujib.tabbarseed.ui.adapter.utils.SpacingItemDecoration
 import com.aliumujib.tabbarseed.ui.base.BaseMVVMFragment
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_videos_list.*
 import javax.inject.Inject
 
 
-class VideosFragment : BaseMVVMFragment<VideosViewModel>() {
+class VideosFragment : BaseMVVMFragment<VideosViewModel>(){
 
     @Inject
     lateinit var playlistAdapter: SingleLayoutAdapter<PlayList>

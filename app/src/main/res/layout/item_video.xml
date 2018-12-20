@@ -9,6 +9,10 @@
             name="item"
             type="com.aliumujib.tabbarseed.data.model.PlayListItem" />
 
+        <variable
+            name="clickListener"
+            type="com.aliumujib.tabbarseed.ui.main.fragments.videos.OnVideoClickListener" />
+
     </data>
 
 
@@ -27,6 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/image"
+                android:onClick="@{() -> clickListener.onItemClicked(item)}"
                 bind:imageUrl="@{item.snippet.thumbnails.defaultThumb.url}" />
 
 

@@ -89,8 +89,6 @@ class MainActivity : BaseActivity(),
 
     private fun initToolbar() {
         setSupportActionBar(toolbar)
-
-
     }
 
     private fun initTab() {
@@ -115,29 +113,10 @@ class MainActivity : BaseActivity(),
     }
 
 
-    public override fun onStart() {
-        super.onStart()
-    }
-
-    public override fun onStop() {
-        super.onStop()
-    }
-
-
     private fun switchTab(position: Int) {
         mainFragmentNavigation.switchTab(position)
         updateTabSelection(position)
         //        updateToolbarTitle(position);
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-    }
-
-
-    override fun onPause() {
-        super.onPause()
     }
 
 
