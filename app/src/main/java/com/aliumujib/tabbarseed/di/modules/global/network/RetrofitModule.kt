@@ -2,6 +2,7 @@ package com.aliumujib.tabbarseed.di.modules.global.network
 
 import com.aliumujib.tabbarseed.BuildConfig
 import com.aliumujib.tabbarseed.data.retrofit.RedirectInterceptor
+import com.aliumujib.tabbarseed.data.retrofit.YoutubeService
 import com.aliumujib.tabbarseed.di.scopes.ApplicationScope
 import dagger.Module
 import dagger.Provides
@@ -23,7 +24,7 @@ class RetrofitModule {
                                  callAdapterFactory: RxJava2CallAdapterFactory,
                                  converterFactory: GsonConverterFactory): Retrofit {
         val builder = Retrofit.Builder()
-        builder.baseUrl(BuildConfig.API_URL)
+        builder.baseUrl(BuildConfig.YOUTUBE_API_URL)
         builder.addCallAdapterFactory(callAdapterFactory)
         builder.addConverterFactory(converterFactory)
         builder.client(client)
@@ -41,5 +42,12 @@ class RetrofitModule {
         httpClientBuilder.followSslRedirects(false)
 
         return httpClientBuilder.build()
+    }
+
+
+    @ApplicationScope
+    @Provides
+    fun provideApi(retrofit: Retrofit): YoutubeService {
+        return retrofit.create(YoutubeService::class.java)
     }
 }

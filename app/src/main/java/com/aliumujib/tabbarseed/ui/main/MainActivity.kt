@@ -48,7 +48,7 @@ class MainActivity : BaseActivity(),
 
         AndroidInjection.inject(this)
 
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main_constraints)
 
         tabs = this.resources.getStringArray(R.array.tab_name)
 
@@ -120,7 +120,6 @@ class MainActivity : BaseActivity(),
     }
 
     public override fun onStop() {
-
         super.onStop()
     }
 

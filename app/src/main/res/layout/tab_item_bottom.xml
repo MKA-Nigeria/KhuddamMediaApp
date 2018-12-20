@@ -15,7 +15,7 @@
     <TextView
         android:id="@+id/tab_title"
         android:layout_width="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="4dp"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textSize="10sp"

@@ -24,6 +24,7 @@ interface ApplicationComponent : AndroidInjector<DaggerApplication> {
 
     @Component.Builder
     interface Builder {
+
         @BindsInstance
         fun bindApplicationInstance(application: ApplicationClass): Builder
 

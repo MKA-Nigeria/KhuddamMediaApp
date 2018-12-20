@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.aliumujib.tabbarseed.R
 
 
@@ -32,6 +33,12 @@ inline fun Activity.dpToPx(dp: Int): Int {
 inline fun Context.dpToPx(dp: Int): Int {
     var displayMetrics = resources.displayMetrics
     return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
+}
+
+fun RecyclerView.removeAllDecorations(){
+    while (this.itemDecorationCount > 0) {
+        this.removeItemDecoration(this.getItemDecorationAt(0))
+    }
 }
 
 fun <E> List<E>.random(random: java.util.Random): E? = if (size > 0) get(random.nextInt(size)) else null

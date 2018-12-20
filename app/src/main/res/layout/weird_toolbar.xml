@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
@@ -11,34 +11,70 @@
     app:titleTextColor="@color/black"
     tools:showIn="@layout/activity_main">
 
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginEnd="16dp"
-        android:id="@+id/title_layout"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp">
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:id="@+id/bell_icon"
-            android:src="@drawable/tab_home" />
+        <LinearLayout
+            android:id="@+id/logo_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp">
 
-        <TextView
-            android:layout_weight="1"
-            android:id="@+id/toolbar_title_view"
-            android:layout_width="0dp"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="36dp"
+                android:src="@drawable/logo" />
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:visibility="gone"
-            android:src="@drawable/tab_search" />
+            <TextView
+                android:id="@+id/main_title_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="8dp"
+                android:textSize="18dp"
+                android:gravity="center"
+                android:text="Media"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@color/colorAccent" />
 
-    </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp">
+
+            <ImageView
+                android:id="@+id/bell_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/tab_home"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/toolbar_title_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textColor="@color/black" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/tab_search"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
 
 </androidx.appcompat.widget.Toolbar>
 
