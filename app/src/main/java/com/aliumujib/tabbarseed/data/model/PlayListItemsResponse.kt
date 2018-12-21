@@ -13,7 +13,16 @@ data class PlayListItem(
     val id: String,
     val kind: String,
     val snippet: PlayListItemSnippet
-)
+):IPlayable{
+    override val title: String
+        get() = snippet.title
+    override val date: String
+        get() = contentDetails.videoPublishedAt
+    override val duration: String
+        get() = ""
+    override val hasDurationData: Boolean
+        get() = false
+}
 
 data class PlayListItemContentDetails(
     val videoId: String,

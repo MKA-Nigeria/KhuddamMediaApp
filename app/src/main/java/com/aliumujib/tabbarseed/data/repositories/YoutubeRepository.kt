@@ -10,14 +10,18 @@ import javax.inject.Inject
 class YoutubeRepository @Inject constructor(var youtubeService: YoutubeService,
                                             var schedulers: Schedulers) : IYoutubeRepository {
 
+    override fun getPlayListDetails(id: String): Observable<PlaylistItemResponse> {
+        return youtubeService.getPlaylistItems(constructQueriesForPlayListID(id))
+                .subscribeOn(schedulers.subscribeOn)
+                .observeOn(schedulers.observeOn)
+    }
+
 
     override fun getYoutubeChannelVideos(list: List<String>): Observable<List<PlayListItem>> {
         return getYoutubeChannelPlaylists(list).flatMap {
             val requestList = mutableListOf<Observable<PlaylistItemResponse>>()
             it.forEach {
-                requestList.add(youtubeService.getPlaylistItems(constructQueriesForPlayListID(it.id))
-                        .subscribeOn(schedulers.subscribeOn)
-                        .observeOn(schedulers.observeOn))
+                requestList.add(getPlayListDetails(it.id))
             }
 
             Observable.zip(requestList) {

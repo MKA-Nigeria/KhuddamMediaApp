@@ -2,7 +2,12 @@ package com.aliumujib.tabbarseed.di.modules.activities.main.playlistdetails
 
 
 import androidx.lifecycle.ViewModelProviders
+import com.aliumujib.tabbarseed.R
+import com.aliumujib.tabbarseed.data.contracts.IYoutubeRepository
+import com.aliumujib.tabbarseed.data.model.IPlayable
+import com.aliumujib.tabbarseed.data.repositories.YoutubeRepository
 import com.aliumujib.tabbarseed.di.scopes.PerFragment
+import com.aliumujib.tabbarseed.ui.adapter.base.SingleLayoutAdapter
 import com.aliumujib.tabbarseed.ui.main.IMainFragmentNavigation
 import com.aliumujib.tabbarseed.ui.main.fragments.me.MeViewModel
 import com.aliumujib.tabbarseed.ui.main.fragments.playlistdetails.PlaylistDetailsFragment
@@ -20,8 +25,8 @@ class PlayListDetailsModule {
 
     @PerFragment
     @Provides
-    fun providesVMFactory(mainFragmentNavigation: IMainFragmentNavigation): ViewModelFactory<PlaylistDetailsViewModel> {
-        return ViewModelFactory(lazyOf(PlaylistDetailsViewModel(mainFragmentNavigation)))
+    fun providesVMFactory(mainFragmentNavigation: IMainFragmentNavigation, youtubeRepository: IYoutubeRepository): ViewModelFactory<PlaylistDetailsViewModel> {
+        return ViewModelFactory(lazyOf(PlaylistDetailsViewModel(mainFragmentNavigation, youtubeRepository)))
     }
 
     @PerFragment
@@ -31,10 +36,10 @@ class PlayListDetailsModule {
     }
 
 
-//    @PerFragment
-//    @Provides
-//    fun providesStatAdapter(context: Context, fragment: PVCAdminStatsFragment): StatAdapter {
-//        return StatAdapter(context, fragment)
-//    }
+    @PerFragment
+    @Provides
+    fun providesSingleLayoutAdapter(fragment: PlaylistDetailsFragment): SingleLayoutAdapter<IPlayable> {
+        return SingleLayoutAdapter(R.layout.item_playable, fragment)
+    }
 
 }

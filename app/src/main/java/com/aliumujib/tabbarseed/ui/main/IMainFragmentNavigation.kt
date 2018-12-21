@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.aliumujib.tabbarseed.R
 import com.aliumujib.tabbarseed.data.model.PlayList
 import com.aliumujib.tabbarseed.data.model.PlayListItem
+import com.aliumujib.tabbarseed.data.model.PlaylistParcelable
 import com.aliumujib.tabbarseed.ui.main.fragments.discover.DiscoverFragment
 import com.aliumujib.tabbarseed.ui.main.fragments.me.MeFragment
 import com.aliumujib.tabbarseed.ui.main.fragments.playlistdetails.PlaylistDetailsFragment
@@ -52,7 +53,7 @@ class MainFragmentNavigation(private var activity: MainActivity,
     }
 
     override fun openPlayListDetails(data: PlayList) {
-        pushFragment(PlaylistDetailsFragment.openVideoPlayListDetails())
+        pushFragment(PlaylistDetailsFragment.openVideoPlayListDetails(PlaylistParcelable.fromPlayList(data)))
     }
 
 
