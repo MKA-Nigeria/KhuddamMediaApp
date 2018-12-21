@@ -67,15 +67,15 @@ class YoutubeRepository @Inject constructor(var youtubeService: YoutubeService,
     /**
      *
      * TODO
-     * Replace both these methiods with an interceptor
+     * Replace both these methods with an interceptor
      * **/
 
     fun constructQueriesForChannelID(string: String): HashMap<String, Any> {
         val hashMap = HashMap<String, Any>()
         hashMap["channelId"] = string
         hashMap["maxResults"] = 25
-        hashMap["part"] = "snippet,contentDetails"
-        hashMap["key"] = "AIzaSyCzTQAdni52z7AR6vLPBVoM75FES9BIUTw"
+//        hashMap["part"] = "snippet,contentDetails"
+//        hashMap["key"] = "AIzaSyCzTQAdni52z7AR6vLPBVoM75FES9BIUTw"
         return hashMap
     }
 
@@ -84,8 +84,8 @@ class YoutubeRepository @Inject constructor(var youtubeService: YoutubeService,
         val hashMap = HashMap<String, Any>()
         hashMap["playlistId"] = string
         hashMap["maxResults"] = 25
-        hashMap["part"] = "snippet,contentDetails"
-        hashMap["key"] = "AIzaSyCzTQAdni52z7AR6vLPBVoM75FES9BIUTw"
+//        hashMap["part"] = "snippet,contentDetails"
+//        hashMap["key"] = "AIzaSyCzTQAdni52z7AR6vLPBVoM75FES9BIUTw"
         return hashMap
     }
 

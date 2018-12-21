@@ -1,13 +1,14 @@
 package com.aliumujib.tabbarseed.di.modules.global.network
 
 import com.aliumujib.tabbarseed.BuildConfig
-import com.aliumujib.tabbarseed.data.retrofit.RedirectInterceptor
+import com.aliumujib.tabbarseed.data.retrofit.SoundCloudService
 import com.aliumujib.tabbarseed.data.retrofit.YoutubeService
 import com.aliumujib.tabbarseed.di.scopes.ApplicationScope
+import com.aliumujib.tabbarseed.utils.SoundCloudQueryInterceptor
+import com.aliumujib.tabbarseed.utils.YoutubeQueryInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -18,36 +19,55 @@ import retrofit2.converter.gson.GsonConverterFactory
 @Module(includes = [FactoryModule::class, InterceptorsModule::class])
 class RetrofitModule {
 
+    //I am too lazy to construct singleton generators for each component.. sooo
+
     @ApplicationScope
     @Provides
-    internal fun provideRetrofit(client: OkHttpClient,
-                                 callAdapterFactory: RxJava2CallAdapterFactory,
-                                 converterFactory: GsonConverterFactory): Retrofit {
+    fun provideYoutubeApi(callAdapterFactory: RxJava2CallAdapterFactory,
+                          youtubeQueryInterceptor: YoutubeQueryInterceptor,
+                          converterFactory: GsonConverterFactory): YoutubeService {
+
+        val httpClientBuilder = OkHttpClient.Builder()
+
+        httpClientBuilder.addInterceptor(youtubeQueryInterceptor)
+        httpClientBuilder.followRedirects(false)
+        httpClientBuilder.followSslRedirects(false)
+
+        val httpClient = httpClientBuilder.build()
+
+
         val builder = Retrofit.Builder()
         builder.baseUrl(BuildConfig.YOUTUBE_API_URL)
         builder.addCallAdapterFactory(callAdapterFactory)
         builder.addConverterFactory(converterFactory)
-        builder.client(client)
-        return builder.build()
+        builder.client(httpClient)
+        val retrofit2 = builder.build()
+        return retrofit2.create(YoutubeService::class.java)
     }
+
 
     @ApplicationScope
     @Provides
-    internal fun provideOkhttpClient(loggingInterceptor: HttpLoggingInterceptor, redirectInterceptor: RedirectInterceptor): OkHttpClient {
+    fun provideSoundCloudApi(callAdapterFactory: RxJava2CallAdapterFactory,
+                             soundCloudQueryInterceptor: SoundCloudQueryInterceptor,
+                             converterFactory: GsonConverterFactory): SoundCloudService {
+
         val httpClientBuilder = OkHttpClient.Builder()
 
-        httpClientBuilder.addInterceptor(loggingInterceptor)
-        httpClientBuilder.addInterceptor(redirectInterceptor)
+        httpClientBuilder.addInterceptor(soundCloudQueryInterceptor)
         httpClientBuilder.followRedirects(false)
         httpClientBuilder.followSslRedirects(false)
 
-        return httpClientBuilder.build()
-    }
+        val httpClient = httpClientBuilder.build()
 
 
-    @ApplicationScope
-    @Provides
-    fun provideApi(retrofit: Retrofit): YoutubeService {
-        return retrofit.create(YoutubeService::class.java)
+        val builder = Retrofit.Builder()
+        builder.baseUrl(BuildConfig.SOUNDCLOUD_API_URL)
+        builder.addCallAdapterFactory(callAdapterFactory)
+        builder.addConverterFactory(converterFactory)
+        builder.client(httpClient)
+        val retrofit2 = builder.build()
+        return retrofit2.create(SoundCloudService::class.java)
     }
+
 }
