@@ -3,7 +3,9 @@ package com.aliumujib.tabbarseed.di.modules.global.network
 import com.aliumujib.tabbarseed.BuildConfig
 import com.aliumujib.tabbarseed.data.retrofit.RedirectInterceptor
 import com.aliumujib.tabbarseed.di.scopes.ApplicationScope
+import com.aliumujib.tabbarseed.utils.SoundCloudQueryInterceptor
 import com.aliumujib.tabbarseed.utils.TabBarSeedLog
+import com.aliumujib.tabbarseed.utils.YoutubeQueryInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.logging.HttpLoggingInterceptor
@@ -17,6 +19,14 @@ class InterceptorsModule {
     @ApplicationScope
     @Provides
     internal fun provideRedirectInterceptor(): RedirectInterceptor = RedirectInterceptor()
+
+    @ApplicationScope
+    @Provides
+    internal fun provideYoutubeQueryInterceptor(): YoutubeQueryInterceptor = YoutubeQueryInterceptor()
+
+    @ApplicationScope
+    @Provides
+    internal fun provideSoundCloudQueryInterceptor(): SoundCloudQueryInterceptor = SoundCloudQueryInterceptor()
 
     @ApplicationScope
     @Provides

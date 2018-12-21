@@ -33,9 +33,20 @@ android {
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "API_URL", '\"https://api.github.com\"'
+            buildConfigField "String", "YOUTUBE_API_URL", '\"https://www.googleapis.com/youtube/v3/\"'
+            buildConfigField "String", "YOUTUBE_API_KEY", '\"AIzaSyCzTQAdni52z7AR6vLPBVoM75FES9BIUTw\"'
+
+            buildConfigField "String", "SOUNDCLOUD_API_KEY", '\"vCrJOCBiaW5wdhpBD0bV6nUaNYCbYNZI\"'
+            buildConfigField "String", "SOUNDCLOUD_API_URL", '\"https://api.soundcloud.com/\"'
         }
         debug {
             buildConfigField "String", "API_URL", '\"https://api.github.com\"'
+            buildConfigField "String", "YOUTUBE_API_URL", '\"https://www.googleapis.com/youtube/v3/\"'
+            buildConfigField "String", "YOUTUBE_API_KEY", '\"AIzaSyCzTQAdni52z7AR6vLPBVoM75FES9BIUTw\"'
+
+            buildConfigField "String", "SOUNDCLOUD_API_KEY", '\"vCrJOCBiaW5wdhpBD0bV6nUaNYCbYNZI\"'
+            buildConfigField "String", "SOUNDCLOUD_API_URL", '\"https://api.soundcloud.com/\"'
+
         }
     }
 
@@ -96,4 +107,5 @@ dependencies {
 
     //Utils
     implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }

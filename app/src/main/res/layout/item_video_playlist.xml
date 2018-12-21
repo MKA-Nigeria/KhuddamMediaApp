@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="clickListener"
+            type="com.aliumujib.tabbarseed.ui.main.fragments.videos.OnPlaylistClickListener" />
+
+
+        <variable
+            name="item"
+            type="com.aliumujib.tabbarseed.data.model.PlayList" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            bind:cardCornerRadius="12dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="@{() -> clickListener.onItemClicked(item)}"
+                android:src="@drawable/bottom_shadow"
+                bind:imageUrl="@{item.snippet.thumbnails.defaultThumb.url}" />
+
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{item.snippet.title}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            bind:layout_constraintEnd_toEndOf="@+id/cardView"
+            bind:layout_constraintStart_toStartOf="@+id/cardView"
+            bind:layout_constraintTop_toBottomOf="@+id/cardView"
+            tools:text="The Stuff of Life" />
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{item.contentDetails.itemCount + ` videos`}"
+            bind:layout_constraintEnd_toEndOf="@+id/textView"
+            bind:layout_constraintStart_toStartOf="@+id/textView"
+            bind:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:text="5 videos" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

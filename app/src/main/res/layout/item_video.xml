@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.aliumujib.tabbarseed.data.model.PlayListItem" />
+
+        <variable
+            name="clickListener"
+            type="com.aliumujib.tabbarseed.ui.main.fragments.videos.OnVideoClickListener" />
+
+    </data>
+
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            bind:cardCornerRadius="4dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/image"
+                android:onClick="@{() -> clickListener.onItemClicked(item)}"
+                bind:imageUrl="@{item.snippet.thumbnails.defaultThumb.url}" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:background="@drawable/bottom_shadow"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@{item.snippet.title}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    bind:layout_constraintEnd_toEndOf="@+id/image"
+                    bind:layout_constraintStart_toStartOf="@+id/image"
+                    bind:layout_constraintBottom_toTopOf="@+id/details"
+                    tools:text="The Stuff of Life" />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="8dp"
+                    android:id="@+id/details"
+                    android:textColor="@color/white"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:text="@{item.snippet.description}"
+                    bind:layout_constraintEnd_toEndOf="@+id/textView"
+                    bind:layout_constraintStart_toStartOf="@+id/textView"
+                    bind:layout_constraintBottom_toBottomOf="parent"
+                    tools:text="5 videos" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+</layout>
