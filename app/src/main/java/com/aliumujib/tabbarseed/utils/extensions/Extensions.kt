@@ -35,7 +35,25 @@ inline fun Context.dpToPx(dp: Int): Int {
     return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
 }
 
-fun RecyclerView.removeAllDecorations(){
+fun Activity.getScreenHeight(): Int {
+    val displayMetrics = DisplayMetrics()
+    windowManager.defaultDisplay.getMetrics(displayMetrics)
+    return displayMetrics.heightPixels
+}
+
+fun Activity.getScreenWidth(): Int {
+    val displayMetrics = DisplayMetrics()
+    windowManager.defaultDisplay.getMetrics(displayMetrics)
+    return displayMetrics.widthPixels
+}
+
+fun View.setWidth(width: Int) {
+    val params = layoutParams
+    params.width = width
+    layoutParams = params
+}
+
+fun RecyclerView.removeAllDecorations() {
     while (this.itemDecorationCount > 0) {
         this.removeItemDecoration(this.getItemDecorationAt(0))
     }

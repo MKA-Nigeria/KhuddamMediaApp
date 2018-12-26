@@ -1,4 +1,4 @@
-package com.aliumujib.tabbarseed.utils
+package com.aliumujib.tabbarseed.data.retrofit
 
 import com.aliumujib.tabbarseed.BuildConfig
 import okhttp3.Interceptor
@@ -11,7 +11,7 @@ class YoutubeQueryInterceptor : Interceptor {
         val url = originalHttpUrl.newBuilder()
                 .addQueryParameter("part", "snippet,contentDetails")
                 .addQueryParameter("maxResults", 50.toString())
-                .addQueryParameter("key",BuildConfig.SOUNDCLOUD_API_KEY)
+                .addQueryParameter("key",BuildConfig.YOUTUBE_API_KEY)
                 .build()
         return chain.proceed(original.newBuilder().url(url).build())
     }

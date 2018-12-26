@@ -1,7 +1,9 @@
 package com.aliumujib.tabbarseed.di.modules.global.network
 
 
+import com.aliumujib.tabbarseed.data.contracts.ISoundCloudRepository
 import com.aliumujib.tabbarseed.data.contracts.IYoutubeRepository
+import com.aliumujib.tabbarseed.data.repositories.SoundCloudRepository
 import com.aliumujib.tabbarseed.data.repositories.YoutubeRepository
 import com.aliumujib.tabbarseed.di.scopes.ApplicationScope
 import dagger.Module
@@ -21,6 +23,12 @@ class RepositoryModule {
         return youtubeRepository
     }
 
+
+    @ApplicationScope
+    @Provides
+    fun provideSoundCloudRepository(soundCloudRepository: SoundCloudRepository): ISoundCloudRepository {
+        return soundCloudRepository
+    }
 
 
 }

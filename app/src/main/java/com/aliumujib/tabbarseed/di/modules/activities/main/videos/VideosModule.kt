@@ -4,12 +4,12 @@ package com.aliumujib.tabbarseed.di.modules.activities.main.videos
 import androidx.lifecycle.ViewModelProviders
 import com.aliumujib.tabbarseed.R
 import com.aliumujib.tabbarseed.data.contracts.IYoutubeRepository
-import com.aliumujib.tabbarseed.data.model.PlayList
+import com.aliumujib.tabbarseed.data.model.YoutubePlayList
 import com.aliumujib.tabbarseed.data.model.PlayListItem
 import com.aliumujib.tabbarseed.di.scopes.PerFragment
 import com.aliumujib.tabbarseed.ui.adapter.base.SingleLayoutAdapter
 import com.aliumujib.tabbarseed.ui.main.IMainFragmentNavigation
-import com.aliumujib.tabbarseed.ui.main.fragments.videos.OnPlaylistClickListener
+import com.aliumujib.tabbarseed.ui.main.fragments.videos.OnYoutubePlaylistClickListener
 import com.aliumujib.tabbarseed.ui.main.fragments.videos.OnVideoClickListener
 import com.aliumujib.tabbarseed.ui.main.fragments.videos.VideosFragment
 import com.aliumujib.tabbarseed.ui.main.fragments.videos.VideosViewModel
@@ -39,14 +39,14 @@ class VideosModule {
 
     @PerFragment
     @Provides
-    fun providesPlayListAdapter(onPlaylistClickListener: OnPlaylistClickListener): SingleLayoutAdapter<PlayList> {
-        return SingleLayoutAdapter(R.layout.item_video_playlist, onPlaylistClickListener)
+    fun providesPlayListAdapter(onYoutubePlaylistClickListener: OnYoutubePlaylistClickListener): SingleLayoutAdapter<YoutubePlayList> {
+        return SingleLayoutAdapter(R.layout.item_video_playlist, onYoutubePlaylistClickListener)
     }
 
     @PerFragment
     @Provides
-    fun providesOnPlaylistClickListener(mainFragmentNavigation: IMainFragmentNavigation): OnPlaylistClickListener {
-        return OnPlaylistClickListener(mainFragmentNavigation)
+    fun providesOnPlaylistClickListener(mainFragmentNavigation: IMainFragmentNavigation): OnYoutubePlaylistClickListener {
+        return OnYoutubePlaylistClickListener(mainFragmentNavigation)
     }
 
     @PerFragment

@@ -6,12 +6,12 @@
     <data>
         <variable
             name="clickListener"
-            type="com.aliumujib.tabbarseed.ui.main.fragments.videos.OnYoutubePlaylistClickListener" />
+            type="com.aliumujib.tabbarseed.ui.adapter.base.BindableItemClickListener" />
 
 
         <variable
             name="item"
-            type="com.aliumujib.tabbarseed.data.model.YoutubePlayList" />
+            type="com.aliumujib.tabbarseed.data.model.SoundCloudPlayList" />
 
     </data>
 
@@ -31,7 +31,7 @@
                 android:layout_height="match_parent"
                 android:onClick="@{() -> clickListener.onItemClicked(item)}"
                 android:src="@drawable/bottom_shadow"
-                bind:imageUrl="@{item.snippet.thumbnails.defaultThumb.url}" />
+                bind:imageUrl="@{item.imageURL}" />
 
         </androidx.cardview.widget.CardView>
 
@@ -43,7 +43,7 @@
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{item.snippet.title}"
+            android:text="@{item.title}"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="@color/black"
             android:textStyle="bold"
@@ -56,11 +56,11 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{item.contentDetails.itemCount + ` videos`}"
+            android:text="@{item.track_count + ` episodes`}"
             bind:layout_constraintEnd_toEndOf="@+id/textView"
             bind:layout_constraintStart_toStartOf="@+id/textView"
             bind:layout_constraintTop_toBottomOf="@+id/textView"
-            tools:text="5 videos" />
+            tools:text="5 episodes" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

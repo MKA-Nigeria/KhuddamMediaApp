@@ -4,12 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.aliumujib.tabbarseed.R
-import com.aliumujib.tabbarseed.data.model.PlayList
-import com.aliumujib.tabbarseed.data.model.PlayListItem
-import com.aliumujib.tabbarseed.data.model.PlaylistParcelable
+import com.aliumujib.tabbarseed.data.model.*
 import com.aliumujib.tabbarseed.ui.main.fragments.discover.DiscoverFragment
 import com.aliumujib.tabbarseed.ui.main.fragments.me.MeFragment
 import com.aliumujib.tabbarseed.ui.main.fragments.playlistdetails.PlaylistDetailsFragment
@@ -18,7 +15,6 @@ import com.aliumujib.tabbarseed.ui.main.fragments.videos.VideosFragment
 import com.aliumujib.tabbarseed.utils.FragNavController
 import com.aliumujib.tabbarseed.utils.FragmentHistory
 import kotlinx.android.synthetic.main.activity_main_constraints.*
-import kotlinx.android.synthetic.main.weird_toolbar.*
 
 
 interface IMainFragmentNavigation {
@@ -34,7 +30,9 @@ interface IMainFragmentNavigation {
     fun hideMainToolbar()
     fun showMainToolbar()
     fun playVideo(data: PlayListItem)
-    fun openPlayListDetails(data: PlayList)
+    fun openPlayListDetails(data: YoutubePlayList)
+    fun openPlayListDetails(data: SoundCloudPlayList)
+    fun playTrack(data: Track)
 }
 
 /**
@@ -47,15 +45,21 @@ class MainFragmentNavigation(private var activity: MainActivity,
         FragNavController.TransactionListener,
         FragNavController.RootFragmentListener {
 
+    override fun playTrack(data: Track) {
+
+    }
 
     override fun playVideo(data: PlayListItem) {
 
     }
 
-    override fun openPlayListDetails(data: PlayList) {
+    override fun openPlayListDetails(data: YoutubePlayList) {
         pushFragment(PlaylistDetailsFragment.openVideoPlayListDetails(PlaylistParcelable.fromPlayList(data)))
     }
 
+    override fun openPlayListDetails(data: SoundCloudPlayList) {
+        pushFragment(PlaylistDetailsFragment.openVideoPlayListDetails(PlaylistParcelable.fromPlayList(data)))
+    }
 
     override fun hideMainToolbar() {
         toolbar?.visibility = View.GONE

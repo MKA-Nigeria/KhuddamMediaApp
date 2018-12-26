@@ -1,12 +1,14 @@
 package com.aliumujib.tabbarseed.data.model
 
+import com.google.gson.annotations.SerializedName
+
 
 data class SoundCloudPlayList(
     val artwork_url: String?,
     val created_at: String,
-    val description: Any,
+    val description: String?,
     val downloadable: Boolean,
-    val duration: Int,
+    val duration: Long,
     val ean: Any,
     val embeddable_by: String,
     val genre: Any,
@@ -35,10 +37,13 @@ data class SoundCloudPlayList(
     val uri: String,
     val user: User,
     val user_id: Int
-)
+){
+    val imageURL :String
+    get() = artwork_url?:"n/a"
+}
 
 data class Track(
-    val artwork_url: String,
+    val artwork_url: String?,
     val attachments_uri: String,
     val bpm: Any,
     val comment_count: Int,
@@ -47,7 +52,8 @@ data class Track(
     val description: String,
     val download_count: Int,
     val downloadable: Boolean,
-    val duration: Int,
+    @SerializedName("duration")
+    val durationAttr: Long,
     val embeddable_by: String,
     val favoritings_count: Int,
     val genre: String,
@@ -75,14 +81,25 @@ data class Track(
     val stream_url: String,
     val streamable: Boolean,
     val tag_list: String,
-    val title: String,
+    @SerializedName("title")
+    val titleAttr: String,
     val track_type: Any,
     val uri: String,
     val user: User,
     val user_id: Int,
     val video_url: Any,
     val waveform_url: String
-)
+):IPlayable{
+    override val title: String
+        get() = titleAttr
+    override val duration: String
+        get() = durationAttr.toString()
+    override val date: String
+        get() = created_at
+    override val hasDurationData: Boolean
+        get() = true
+
+}
 
 data class User(
     val avatar_url: String,

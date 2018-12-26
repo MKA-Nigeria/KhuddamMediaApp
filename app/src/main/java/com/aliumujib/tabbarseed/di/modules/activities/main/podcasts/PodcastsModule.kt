@@ -2,13 +2,20 @@ package com.aliumujib.tabbarseed.di.modules.activities.main.podcasts
 
 
 import androidx.lifecycle.ViewModelProviders
+import com.aliumujib.tabbarseed.R
+import com.aliumujib.tabbarseed.data.contracts.ISoundCloudRepository
+import com.aliumujib.tabbarseed.data.model.IPlayable
+import com.aliumujib.tabbarseed.data.model.SoundCloudPlayList
+import com.aliumujib.tabbarseed.data.model.Track
 import com.aliumujib.tabbarseed.di.scopes.PerFragment
+import com.aliumujib.tabbarseed.ui.adapter.base.SingleLayoutAdapter
 import com.aliumujib.tabbarseed.ui.main.IMainFragmentNavigation
-import com.aliumujib.tabbarseed.ui.main.fragments.discover.DiscoverFragment
-import com.aliumujib.tabbarseed.ui.main.fragments.discover.DiscoverViewModel
-import com.aliumujib.tabbarseed.ui.main.fragments.me.MeViewModel
+import com.aliumujib.tabbarseed.ui.main.fragments.podcasts.OnSoundCloudPlaylistClickListener
+import com.aliumujib.tabbarseed.ui.main.fragments.podcasts.OnTrackClickListener
 import com.aliumujib.tabbarseed.ui.main.fragments.podcasts.PodcastsFragment
 import com.aliumujib.tabbarseed.ui.main.fragments.podcasts.PodcastsViewModel
+import com.aliumujib.tabbarseed.ui.main.fragments.videos.OnVideoClickListener
+import com.aliumujib.tabbarseed.ui.main.fragments.videos.OnYoutubePlaylistClickListener
 import com.aliumujib.tabbarseed.utils.ViewModelFactory
 import dagger.Module
 import dagger.Provides
@@ -22,8 +29,8 @@ class PodcastsModule {
 
     @PerFragment
     @Provides
-    fun providesVMFactory(mainFragmentNavigation: IMainFragmentNavigation): ViewModelFactory<PodcastsViewModel> {
-        return ViewModelFactory(lazyOf(PodcastsViewModel(mainFragmentNavigation)))
+    fun providesVMFactory(mainFragmentNavigation: IMainFragmentNavigation, soundCloudRepository: ISoundCloudRepository): ViewModelFactory<PodcastsViewModel> {
+        return ViewModelFactory(lazyOf(PodcastsViewModel(mainFragmentNavigation, soundCloudRepository)))
     }
 
     @PerFragment
@@ -32,11 +39,28 @@ class PodcastsModule {
         return ViewModelProviders.of(fragment, viewModelFactory).get(PodcastsViewModel::class.java)
     }
 
+    @PerFragment
+    @Provides
+    fun providesOnPlaylistClickListener(mainFragmentNavigation: IMainFragmentNavigation): OnSoundCloudPlaylistClickListener {
+        return OnSoundCloudPlaylistClickListener(mainFragmentNavigation)
+    }
 
-//    @PerFragment
-//    @Provides
-//    fun providesStatAdapter(context: Context, fragment: PVCAdminStatsFragment): StatAdapter {
-//        return StatAdapter(context, fragment)
-//    }
+    @PerFragment
+    @Provides
+    fun providesOnTrackClickListener(mainFragmentNavigation: IMainFragmentNavigation): OnTrackClickListener {
+        return OnTrackClickListener(mainFragmentNavigation)
+    }
+
+    @PerFragment
+    @Provides
+    fun providesPlayListAdapter(onSoundCloudPlaylistClickListener: OnSoundCloudPlaylistClickListener): SingleLayoutAdapter<SoundCloudPlayList> {
+        return SingleLayoutAdapter(R.layout.item_podcast_playlist, onSoundCloudPlaylistClickListener)
+    }
+
+    @PerFragment
+    @Provides
+    fun providesTracksAdapter(onTrackClickListener: OnTrackClickListener): SingleLayoutAdapter<Track> {
+        return SingleLayoutAdapter(R.layout.item_playable, onTrackClickListener)
+    }
 
 }

@@ -3,9 +3,9 @@ package com.aliumujib.tabbarseed.di.modules.global.network
 import com.aliumujib.tabbarseed.BuildConfig
 import com.aliumujib.tabbarseed.data.retrofit.RedirectInterceptor
 import com.aliumujib.tabbarseed.di.scopes.ApplicationScope
-import com.aliumujib.tabbarseed.utils.SoundCloudQueryInterceptor
+import com.aliumujib.tabbarseed.data.retrofit.SoundCloudQueryInterceptor
 import com.aliumujib.tabbarseed.utils.TabBarSeedLog
-import com.aliumujib.tabbarseed.utils.YoutubeQueryInterceptor
+import com.aliumujib.tabbarseed.data.retrofit.YoutubeQueryInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.logging.HttpLoggingInterceptor
@@ -35,7 +35,7 @@ class InterceptorsModule {
             TabBarSeedLog.d(it)
         })
         if (BuildConfig.DEBUG) {
-            loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            loggingInterceptor.level = HttpLoggingInterceptor.Level.BASIC
         } else {
             loggingInterceptor.level = HttpLoggingInterceptor.Level.BASIC
         }

@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName
 
 data class PlaylistListResponse(
         val etag: String,
-        val items: List<PlayList>,
+        val items: List<YoutubePlayList>,
         val kind: String,
         val nextPageToken: String,
         val pageInfo: PageInfo
 )
 
-data class PlayList(
+data class YoutubePlayList(
         val contentDetails: PlaylistContentDetails,
         val etag: String,
         val id: String,

@@ -37,7 +37,7 @@ class YoutubeRepository @Inject constructor(var youtubeService: YoutubeService,
         }
     }
 
-    override fun getYoutubeChannelPlaylists(list: List<String>): Observable<List<PlayList>> {
+    override fun getYoutubeChannelPlaylists(list: List<String>): Observable<List<YoutubePlayList>> {
         val requestList = mutableListOf<Observable<PlaylistListResponse>>()
         list.forEach {
             requestList.add(youtubeService.getPlaylistsForChannel(constructQueriesForChannelID(it))
@@ -47,7 +47,7 @@ class YoutubeRepository @Inject constructor(var youtubeService: YoutubeService,
 
         return Observable.zip(requestList) { it ->
             val data = it
-            val playlist = mutableListOf<PlayList>()
+            val playlist = mutableListOf<YoutubePlayList>()
 
             data.forEach {
                 playlist.addAll((it as PlaylistListResponse).items)

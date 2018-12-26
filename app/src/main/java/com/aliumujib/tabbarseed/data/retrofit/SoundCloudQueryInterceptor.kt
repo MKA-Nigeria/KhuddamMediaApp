@@ -1,4 +1,4 @@
-package com.aliumujib.tabbarseed.utils
+package com.aliumujib.tabbarseed.data.retrofit
 
 import com.aliumujib.tabbarseed.BuildConfig
 import okhttp3.Interceptor

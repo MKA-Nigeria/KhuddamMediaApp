@@ -90,6 +90,7 @@ open class BaseViewModel : ViewModel(), Observable {
      * buttttttt then sha ... time dey go and I need to handle these olodo errors
      * **/
     open fun handleError(exception: Throwable) {
+        exception.printStackTrace()
         if (exception is HttpException) {
             val responseBody = exception.response().errorBody()
             displayError(getErrorMessage(responseBody))

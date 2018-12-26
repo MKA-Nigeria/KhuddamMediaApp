@@ -4,9 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.aliumujib.tabbarseed.R
-import com.aliumujib.tabbarseed.data.model.PlayList
+import com.aliumujib.tabbarseed.data.model.YoutubePlayList
 import com.aliumujib.tabbarseed.data.model.PlayListItem
-import com.aliumujib.tabbarseed.ui.adapter.base.BindableItemClickListener
 import com.aliumujib.tabbarseed.ui.adapter.base.SingleLayoutAdapter
 import com.aliumujib.tabbarseed.ui.adapter.utils.SpacingItemDecoration
 import com.aliumujib.tabbarseed.ui.base.BaseMVVMFragment
@@ -21,7 +20,7 @@ import javax.inject.Inject
 class VideosFragment : BaseMVVMFragment<VideosViewModel>(){
 
     @Inject
-    lateinit var playlistAdapter: SingleLayoutAdapter<PlayList>
+    lateinit var playlistAdapter: SingleLayoutAdapter<YoutubePlayList>
 
 
     @Inject

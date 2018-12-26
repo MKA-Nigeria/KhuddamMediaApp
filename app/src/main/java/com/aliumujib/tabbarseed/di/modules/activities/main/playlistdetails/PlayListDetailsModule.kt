@@ -3,8 +3,10 @@ package com.aliumujib.tabbarseed.di.modules.activities.main.playlistdetails
 
 import androidx.lifecycle.ViewModelProviders
 import com.aliumujib.tabbarseed.R
+import com.aliumujib.tabbarseed.data.contracts.ISoundCloudRepository
 import com.aliumujib.tabbarseed.data.contracts.IYoutubeRepository
 import com.aliumujib.tabbarseed.data.model.IPlayable
+import com.aliumujib.tabbarseed.data.repositories.SoundCloudRepository
 import com.aliumujib.tabbarseed.data.repositories.YoutubeRepository
 import com.aliumujib.tabbarseed.di.scopes.PerFragment
 import com.aliumujib.tabbarseed.ui.adapter.base.SingleLayoutAdapter
@@ -25,8 +27,8 @@ class PlayListDetailsModule {
 
     @PerFragment
     @Provides
-    fun providesVMFactory(mainFragmentNavigation: IMainFragmentNavigation, youtubeRepository: IYoutubeRepository): ViewModelFactory<PlaylistDetailsViewModel> {
-        return ViewModelFactory(lazyOf(PlaylistDetailsViewModel(mainFragmentNavigation, youtubeRepository)))
+    fun providesVMFactory(mainFragmentNavigation: IMainFragmentNavigation, youtubeRepository: IYoutubeRepository, soundCloudRepository: ISoundCloudRepository): ViewModelFactory<PlaylistDetailsViewModel> {
+        return ViewModelFactory(lazyOf(PlaylistDetailsViewModel(mainFragmentNavigation, youtubeRepository,soundCloudRepository)))
     }
 
     @PerFragment

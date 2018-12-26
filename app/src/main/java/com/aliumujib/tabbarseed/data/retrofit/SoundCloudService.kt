@@ -21,4 +21,7 @@ interface SoundCloudService {
     @GET("users/{userId}/playlists")
     fun getPlayLists(@Path("userId") userId: String): Observable<List<SoundCloudPlayList>>
 
+    @GET("playlists/{userId}")
+    fun getPlaylist(@Path("userId") userId: String): Observable<SoundCloudPlayList>
+
 }
