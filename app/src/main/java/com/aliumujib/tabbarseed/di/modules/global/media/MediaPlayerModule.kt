@@ -2,7 +2,7 @@ package com.aliumujib.tabbarseed.di.modules.global.media
 
 import android.content.Context
 import com.aliumujib.tabbarseed.di.scopes.ApplicationScope
-import com.aliumujib.tabbarseed.ui.main.ComponentListener
+import com.aliumujib.tabbarseed.utils.ComponentListener
 import com.google.android.exoplayer2.DefaultLoadControl
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ExoPlayerFactory

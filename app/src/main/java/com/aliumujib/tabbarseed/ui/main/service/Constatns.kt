@@ -1,4 +1,4 @@
-package com.aliumujib.tabbarseed.ui
+package com.aliumujib.tabbarseed.ui.main.service
 
 public object NotifConstants {
     const  val NOTIFICATION_ID_FOREGROUND_SERVICE = 8466503
@@ -10,8 +10,8 @@ public object NotifConstants {
     }
 
     object STATE_SERVICE {
-        const val CONNECTED = 10
-        const val NOT_CONNECTED = 1
+        const val PLAYING = 10
+        const val NOT_PLAYING = 1
     }
 
 }

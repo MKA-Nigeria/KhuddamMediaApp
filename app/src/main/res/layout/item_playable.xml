@@ -27,6 +27,7 @@
             android:layout_height="40dp"
             android:src="@drawable/play_circle"
             bind:layout_constraintBottom_toBottomOf="parent"
+            android:onClick="@{() -> clickListener.onItemClicked(item)}"
             bind:layout_constraintStart_toStartOf="parent"
             bind:layout_constraintTop_toTopOf="parent" />
 
@@ -40,6 +41,7 @@
             android:text="@{item.title}"
             android:maxLines="1"
             android:ellipsize="end"
+            android:onClick="@{() -> clickListener.onItemClicked(item)}"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             bind:layout_constraintEnd_toEndOf="parent"
             bind:layout_constraintStart_toEndOf="@+id/imageView"

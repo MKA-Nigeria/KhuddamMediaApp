@@ -12,6 +12,7 @@ import com.aliumujib.tabbarseed.ui.main.fragments.me.MeFragment
 import com.aliumujib.tabbarseed.ui.main.fragments.playlistdetails.PlaylistDetailsFragment
 import com.aliumujib.tabbarseed.ui.main.fragments.podcasts.PodcastsFragment
 import com.aliumujib.tabbarseed.ui.main.fragments.videos.VideosFragment
+import com.aliumujib.tabbarseed.ui.main.service.AudioPlayerService
 import com.aliumujib.tabbarseed.utils.FragNavController
 import com.aliumujib.tabbarseed.utils.FragmentHistory
 import kotlinx.android.synthetic.main.activity_main_constraints.*
@@ -46,7 +47,7 @@ class MainFragmentNavigation(private var activity: MainActivity,
         FragNavController.RootFragmentListener {
 
     override fun playTrack(data: Track) {
-
+        AudioPlayerService.startService(activity, PlayableParcelable.fromSoundCloudTrack(data))
     }
 
     override fun playVideo(data: PlayListItem) {

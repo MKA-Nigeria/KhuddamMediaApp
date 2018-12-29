@@ -14,7 +14,6 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.aliumujib.tabbarseed.R
-import com.aliumujib.tabbarseed.ui.NotifConstants
 import com.aliumujib.tabbarseed.ui.base.BaseActivity
 import com.aliumujib.tabbarseed.utils.PlayPauseDrawable
 import com.aliumujib.tabbarseed.utils.Utils
@@ -104,12 +103,6 @@ class MainActivity : BaseActivity(),
         getAllChildren(dragView)
 
         setViewsAsClickable(false)
-
-
-        val startIntent = Intent(this@MainActivity, AudioPlayerService::class.java)
-        startIntent.action = NotifConstants.ACTION.START_ACTION
-        startService(startIntent)
-
     }
 
     private fun setViewsAsClickable(clickable: Boolean) {
