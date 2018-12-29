@@ -2,6 +2,7 @@ package com.aliumujib.tabbarseed.di.modules.global
 
 import android.content.Context
 import com.aliumujib.tabbarseed.ApplicationClass
+import com.aliumujib.tabbarseed.di.modules.global.media.MediaPlayerModule
 import com.aliumujib.tabbarseed.di.modules.global.network.RepositoryModule
 import com.aliumujib.tabbarseed.di.scopes.ApplicationScope
 import com.aliumujib.tabbarseed.utils.AppSchedulers
@@ -13,7 +14,7 @@ import dagger.Provides
 /**
  * Created by ayokunlepaul on 27/11/2018.
  */
-@Module(includes = [RepositoryModule::class])
+@Module(includes = [RepositoryModule::class, MediaPlayerModule::class])
  class ApplicationModule {
 
     @ApplicationScope @Provides

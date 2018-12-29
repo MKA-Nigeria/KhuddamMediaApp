@@ -16,6 +16,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
     dataBinding {
         enabled true
     }
@@ -92,7 +97,7 @@ dependencies {
 //
 //    implementation 'androidx.annotation:annotation:1.0.0'
 //    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-
+    implementation 'com.google.android.exoplayer:exoplayer:2.9.0'
     implementation "com.squareup.okhttp3:logging-interceptor:3.11.0"
     implementation "com.squareup.retrofit2:retrofit:${retrofitVersion}"
     implementation "com.squareup.retrofit2:converter-gson:${retrofitGsonVersion}"

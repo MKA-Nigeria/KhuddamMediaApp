@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.aliumujib.tabbarseed.R
+import com.aliumujib.tabbarseed.ui.NotifConstants
 import com.aliumujib.tabbarseed.ui.base.BaseActivity
 import com.aliumujib.tabbarseed.utils.PlayPauseDrawable
 import com.aliumujib.tabbarseed.utils.Utils
@@ -26,6 +27,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_main_constraints.*
+import kotlinx.android.synthetic.main.weird_toolbar.*
 import javax.inject.Inject
 
 class MainActivity : BaseActivity(),
@@ -103,17 +105,22 @@ class MainActivity : BaseActivity(),
 
         setViewsAsClickable(false)
 
+
+        val startIntent = Intent(this@MainActivity, AudioPlayerService::class.java)
+        startIntent.action = NotifConstants.ACTION.START_ACTION
+        startService(startIntent)
+
     }
 
     private fun setViewsAsClickable(clickable: Boolean) {
         dragView.isClickable = clickable
+        cardView.isClickable = clickable
         scrollView.isClickable = clickable
-        now_playing_constraint_parent.isClickable = clickable
-        image_constraint_parent.isClickable = clickable
-        app_bar_layout.isClickable = clickable
+//        now_playing_constraint_parent.isClickable = clickable
+//        image_constraint_parent.isClickable = clickable
+//        app_bar_layout.isClickable = clickable
 //        imageArt.isClickable = clickable
 //        imageCard.isClickable = clickable
-//        cardView.isClickable = clickable
 //        backgroundView.isClickable = clickable
     }
 
@@ -224,15 +231,9 @@ class MainActivity : BaseActivity(),
 
         override fun onStateChanged(p0: View, p1: Int) {
             if (p1 == BottomSheetBehavior.STATE_COLLAPSED) {
-                imageCard.visibility = View.GONE
-                backgroundView.visibility = View.GONE
-                imageArt.visibility = View.GONE
                 scrollView.setWidth(0)
                 activity.setViewsAsClickable(false)
             } else {
-                imageCard.visibility = View.VISIBLE
-                backgroundView.visibility = View.VISIBLE
-                imageArt.visibility = View.VISIBLE
                 scrollView.setWidth(activity.getScreenWidth())
                 activity.setViewsAsClickable(true)
             }
@@ -240,9 +241,6 @@ class MainActivity : BaseActivity(),
 
         private val scrollView = activity.findViewById<ScrollView>(R.id.scrollView)
         private val cardView = activity.findViewById<CardView>(R.id.cardView)
-        private val imageCard = activity.findViewById<CardView>(R.id.imageCard)
-        private val imageArt = activity.findViewById<ImageView>(R.id.imageArt)
-        private val backgroundView = activity.findViewById<View>(R.id.backgroundView)
         private val TAG = PanelSlideListener::class.java.simpleName
     }
 
