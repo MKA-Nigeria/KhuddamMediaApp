@@ -9,18 +9,11 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ScrollView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.aliumujib.tabbarseed.R
 import com.aliumujib.tabbarseed.ui.base.BaseActivity
-import com.aliumujib.tabbarseed.ui.main.service.AudioPlayerService
-import com.aliumujib.tabbarseed.utils.PlayPauseDrawable
 import com.aliumujib.tabbarseed.utils.Utils
-import com.aliumujib.tabbarseed.utils.extensions.getScreenWidth
-import com.aliumujib.tabbarseed.utils.extensions.setWidth
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.tabs.TabLayout
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
@@ -54,7 +47,7 @@ class MainActivity : BaseActivity(),
     lateinit var mainFragmentNavigation: IMainFragmentNavigation
 
     @Inject
-    lateinit var playbackVC: IPlaybackVC
+    lateinit var audioPlaybackVC: IAudioPlaybackVC
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +64,7 @@ class MainActivity : BaseActivity(),
 
 
         mainFragmentNavigation.setUp()
-        playbackVC.setUp()
+        audioPlaybackVC.setUp()
 
         bottom_tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
@@ -97,28 +90,12 @@ class MainActivity : BaseActivity(),
         })
 
 
-        val sheetBehavior = BottomSheetBehavior.from(dragView)
-        sheetBehavior.setBottomSheetCallback(PanelSlideListener(this))
-        sheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-
         switchTab(0)
 
         //getAllChildren(dragView)
 
-        setViewsAsClickable(false)
     }
 
-    private fun setViewsAsClickable(clickable: Boolean) {
-        dragView.isClickable = clickable
-        cardView.isClickable = clickable
-        scrollView.isClickable = clickable
-//        now_playing_constraint_parent.isClickable = clickable
-//        image_constraint_parent.isClickable = clickable
-//        app_bar_layout.isClickable = clickable
-//        imageArt.isClickable = clickable
-//        imageCard.isClickable = clickable
-//        backgroundView.isClickable = clickable
-    }
 
 
     private fun getAllChildren(v: View) {
@@ -213,36 +190,6 @@ class MainActivity : BaseActivity(),
         super.onSaveInstanceState(outState)
         mainFragmentNavigation.onSaveInstanceState(outState)
     }
-
-
-    class PanelSlideListener(var activity: MainActivity) : BottomSheetBehavior.BottomSheetCallback() {
-        override fun onSlide(p0: View, slideOffset: Float) {
-            val cardOpacity = 1 - slideOffset
-            val scrollOpacity = slideOffset
-
-            Log.d(this@PanelSlideListener.TAG, "OFSSET: $slideOffset")
-            cardView.alpha = cardOpacity
-            scrollView.alpha = scrollOpacity
-        }
-
-        override fun onStateChanged(p0: View, p1: Int) {
-            if (p1 == BottomSheetBehavior.STATE_COLLAPSED) {
-                scrollView.setWidth(0)
-                activity.setViewsAsClickable(false)
-                cardView.isClickable = false
-            } else if (p1 == BottomSheetBehavior.STATE_HIDDEN) {
-                AudioPlayerService.stopService(activity)
-            } else {
-                scrollView.setWidth(activity.getScreenWidth())
-                activity.setViewsAsClickable(true)
-            }
-        }
-
-        private val scrollView = activity.findViewById<ScrollView>(R.id.scrollView)
-        private val cardView = activity.findViewById<CardView>(R.id.cardView)
-        private val TAG = PanelSlideListener::class.java.simpleName
-    }
-
 
     companion object {
         fun start(context: Context) {

@@ -5,7 +5,6 @@ import com.aliumujib.tabbarseed.di.scopes.PerActivity
 import com.aliumujib.tabbarseed.ui.main.*
 import dagger.Module
 import dagger.Provides
-import javax.inject.Inject
 
 /**
  * Created by aliumujib on 14/05/2018.
@@ -17,14 +16,14 @@ class MainModule {
 
     @PerActivity
     @Provides
-    fun providesMainNavigator(activity: MainActivity, playbackVC: IPlaybackVC): IMainFragmentNavigation {
-        return MainFragmentNavigation(activity, playbackVC, Bundle())
+    fun providesMainNavigator(activity: MainActivity, audioPlaybackVC: IAudioPlaybackVC): IMainFragmentNavigation {
+        return MainFragmentNavigation(activity, audioPlaybackVC, Bundle())
     }
 
     @PerActivity
     @Provides
-    fun providesPlaybackVC(playbackViewController: PlaybackViewController): IPlaybackVC {
-        return playbackViewController
+    fun providesPlaybackVC(audioPlaybackViewController: AudioPlaybackViewController): IAudioPlaybackVC {
+        return audioPlaybackViewController
     }
 
 }

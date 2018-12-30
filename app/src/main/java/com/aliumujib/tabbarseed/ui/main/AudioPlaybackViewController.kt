@@ -1,12 +1,17 @@
 package com.aliumujib.tabbarseed.ui.main
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.ScrollView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import com.aliumujib.tabbarseed.R
 import com.aliumujib.tabbarseed.data.model.PlayableParcelable
 import com.aliumujib.tabbarseed.ui.main.service.AudioPlayerService
 import com.aliumujib.tabbarseed.utils.PlaybackStatusView
+import com.aliumujib.tabbarseed.utils.extensions.getScreenWidth
+import com.aliumujib.tabbarseed.utils.extensions.setWidth
 import com.aliumujib.tabbarseed.utils.imageloader.ImageLoader
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
@@ -14,18 +19,16 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import timber.log.Timber
 import javax.inject.Inject
 
-interface IPlaybackVC {
+interface IAudioPlaybackVC {
     fun showPlaybackViewForAudio(playableParcelable: PlayableParcelable)
     fun hidePlaybackViewForAudio()
     fun destroy()
     fun setUp()
-    fun showPlaybackViewForVideo(playableParcelable: PlayableParcelable)
-    fun hidePlaybackViewForVideo()
 }
 
-class PlaybackViewController @Inject constructor(var activity: MainActivity,
-                                                 var exoPlayer: ExoPlayer,
-                                                 var imageLoader: ImageLoader) : IPlaybackVC {
+class AudioPlaybackViewController @Inject constructor(var activity: MainActivity,
+                                                      var exoPlayer: ExoPlayer,
+                                                      var imageLoader: ImageLoader) : IAudioPlaybackVC {
 
     var bottomSheetBehavior: BottomSheetBehavior<View>? = null
     var dragView: View? = null
@@ -36,6 +39,8 @@ class PlaybackViewController @Inject constructor(var activity: MainActivity,
     var titleExpanded: TextView? = null
     var descriptionExpanded: TextView? = null
     var playPause: PlaybackStatusView? = null
+    var nowPlayingCardView: CardView? = null
+    var scrollView:ScrollView?=null
 
     override fun setUp() {
         dragView = activity.findViewById(R.id.dragView)
@@ -46,8 +51,12 @@ class PlaybackViewController @Inject constructor(var activity: MainActivity,
         titleExpanded = activity.findViewById(R.id.title)
         descriptionExpanded = activity.findViewById(R.id.description)
         playPause = activity.findViewById(R.id.play_pause)
-        bottomSheetBehavior = BottomSheetBehavior.from(dragView)
+        nowPlayingCardView = activity.findViewById(R.id.cardView)
+        scrollView = activity.findViewById(R.id.scrollView)
 
+        bottomSheetBehavior = BottomSheetBehavior.from(dragView)
+        bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+        bottomSheetBehavior?.setBottomSheetCallback(PanelSlideListener(activity))
 
         collapseToCardBtn?.setOnClickListener {
             showCardPlayer()
@@ -66,11 +75,11 @@ class PlaybackViewController @Inject constructor(var activity: MainActivity,
             }
         })
 
-        playPause?.setOnBookmarkStatusChangeListener(object :PlaybackStatusView.OnPlaybackStatusChangeListener{
+        playPause?.setOnBookmarkStatusChangeListener(object : PlaybackStatusView.OnPlaybackStatusChangeListener {
             override fun onStatusChanged(isPlaying: Int) {
-                if(isPlaying == PlaybackStatusView.PAUSED){
+                if (isPlaying == PlaybackStatusView.PAUSED) {
                     AudioPlayerService.pausePlayback(activity)
-                }else{
+                } else {
                     AudioPlayerService.continuePlayback(activity)
                 }
             }
@@ -78,9 +87,39 @@ class PlaybackViewController @Inject constructor(var activity: MainActivity,
 
     }
 
-    override fun hidePlaybackViewForVideo() {
-
+    private fun setViewsAsClickable(clickable: Boolean) {
+        dragView?.isClickable = clickable
+        nowPlayingCardView?.isClickable = clickable
+        scrollView?.isClickable = clickable
     }
+
+
+    inner class PanelSlideListener(var activity: MainActivity) : BottomSheetBehavior.BottomSheetCallback() {
+        override fun onSlide(p0: View, slideOffset: Float) {
+            val cardOpacity = 1 - slideOffset
+            val scrollOpacity = slideOffset
+
+            Log.d(this@PanelSlideListener.TAG, "OFSSET: $slideOffset")
+            nowPlayingCardView?.alpha = cardOpacity
+            scrollView?.alpha = scrollOpacity
+        }
+
+        override fun onStateChanged(p0: View, p1: Int) {
+            if (p1 == BottomSheetBehavior.STATE_COLLAPSED) {
+                scrollView?.setWidth(0)
+                setViewsAsClickable(false)
+                nowPlayingCardView?.isClickable = false
+            } else if (p1 == BottomSheetBehavior.STATE_HIDDEN) {
+                AudioPlayerService.stopService(activity)
+            } else {
+                scrollView?.setWidth(activity.getScreenWidth())
+                setViewsAsClickable(true)
+            }
+        }
+
+        private val TAG = PanelSlideListener::class.java.simpleName
+    }
+
 
     override fun hidePlaybackViewForAudio() {
         bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
@@ -96,17 +135,14 @@ class PlaybackViewController @Inject constructor(var activity: MainActivity,
         descriptionCollapsed?.text = playableParcelable.description
         titleExpanded?.text = playableParcelable.name
         descriptionExpanded?.text = playableParcelable.description
+        showCardPlayer()
     }
 
     private fun showCardPlayer() {
         bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
-    override fun showPlaybackViewForVideo(playableParcelable: PlayableParcelable) {
-
-    }
-
     companion object {
-        var TAG = PlaybackViewController::class.java.simpleName
+        var TAG = AudioPlaybackViewController::class.java.simpleName
     }
 }
