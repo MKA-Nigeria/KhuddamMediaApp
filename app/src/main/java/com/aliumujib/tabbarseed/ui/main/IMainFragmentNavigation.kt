@@ -16,6 +16,7 @@ import com.aliumujib.tabbarseed.ui.main.service.AudioPlayerService
 import com.aliumujib.tabbarseed.utils.FragNavController
 import com.aliumujib.tabbarseed.utils.FragmentHistory
 import kotlinx.android.synthetic.main.activity_main_constraints.*
+import javax.inject.Inject
 
 
 interface IMainFragmentNavigation {
@@ -42,11 +43,13 @@ interface IMainFragmentNavigation {
  * **/
 
 class MainFragmentNavigation(private var activity: MainActivity,
+                             private var playbackVC: IPlaybackVC,
                              private var bundle: Bundle) : IMainFragmentNavigation,
         FragNavController.TransactionListener,
         FragNavController.RootFragmentListener {
 
     override fun playTrack(data: Track) {
+        playbackVC.showPlaybackViewForAudio(PlayableParcelable.fromSoundCloudTrack(data))
         AudioPlayerService.startService(activity, PlayableParcelable.fromSoundCloudTrack(data))
     }
 

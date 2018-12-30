@@ -15,6 +15,7 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.aliumujib.tabbarseed.R
 import com.aliumujib.tabbarseed.ui.base.BaseActivity
+import com.aliumujib.tabbarseed.ui.main.service.AudioPlayerService
 import com.aliumujib.tabbarseed.utils.PlayPauseDrawable
 import com.aliumujib.tabbarseed.utils.Utils
 import com.aliumujib.tabbarseed.utils.extensions.getScreenWidth
@@ -52,6 +53,9 @@ class MainActivity : BaseActivity(),
     @Inject
     lateinit var mainFragmentNavigation: IMainFragmentNavigation
 
+    @Inject
+    lateinit var playbackVC: IPlaybackVC
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -67,7 +71,7 @@ class MainActivity : BaseActivity(),
 
 
         mainFragmentNavigation.setUp()
-
+        playbackVC.setUp()
 
         bottom_tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
@@ -95,12 +99,11 @@ class MainActivity : BaseActivity(),
 
         val sheetBehavior = BottomSheetBehavior.from(dragView)
         sheetBehavior.setBottomSheetCallback(PanelSlideListener(this))
+        sheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
-        play_pause.setImageDrawable(PlayPauseDrawable(this))
         switchTab(0)
 
-
-        getAllChildren(dragView)
+        //getAllChildren(dragView)
 
         setViewsAsClickable(false)
     }
@@ -226,6 +229,9 @@ class MainActivity : BaseActivity(),
             if (p1 == BottomSheetBehavior.STATE_COLLAPSED) {
                 scrollView.setWidth(0)
                 activity.setViewsAsClickable(false)
+                cardView.isClickable = false
+            } else if (p1 == BottomSheetBehavior.STATE_HIDDEN) {
+                AudioPlayerService.stopService(activity)
             } else {
                 scrollView.setWidth(activity.getScreenWidth())
                 activity.setViewsAsClickable(true)

@@ -48,7 +48,7 @@ data class PlayableParcelable(val name: String,
         }
 
         fun fromSoundCloudTrack(soundCloudTrack: Track): PlayableParcelable {
-            return PlayableParcelable(soundCloudTrack.title, soundCloudTrack.description,
+            return PlayableParcelable(soundCloudTrack.title, soundCloudTrack.user.username,
                     soundCloudTrack.artwork_url?:"N/A", soundCloudTrack.id.toString(), TYPE_SOUNDCLOUD_TRACK)
         }
 

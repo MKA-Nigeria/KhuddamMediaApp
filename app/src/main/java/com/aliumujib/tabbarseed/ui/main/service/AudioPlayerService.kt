@@ -40,8 +40,6 @@ class AudioPlayerService : Service() {
     lateinit var mediaSource: MediaSource
 
 
-
-
     override fun onBind(intent: Intent): IBinder? {
         return null
     }
@@ -50,11 +48,11 @@ class AudioPlayerService : Service() {
         super.onCreate()
         AndroidInjection.inject(this)
         mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        stateService = NotifConstants.STATE_SERVICE.NOT_PLAYING
+        stateService = PlaybackConstants.STATE_SERVICE.NOT_PLAYING
     }
 
     override fun onDestroy() {
-        stateService = NotifConstants.STATE_SERVICE.NOT_PLAYING
+        stateService = PlaybackConstants.STATE_SERVICE.NOT_PLAYING
         simpleExoPlayer.stop(true)
         super.onDestroy()
     }
@@ -68,15 +66,23 @@ class AudioPlayerService : Service() {
 
         // if user starts the service
         when (intent.action) {
-            NotifConstants.ACTION.START_ACTION -> {
+            PlaybackConstants.ACTION.START_ACTION -> {
                 Log.d(TAG, "Received user starts foreground intent")
                 val playableParcelable: PlayableParcelable? = intent.getParcelableExtra(PLAYABLE)
-                if(playableParcelable!=null){
-                    startForeground(NotifConstants.NOTIFICATION_ID_FOREGROUND_SERVICE, prepareNotification())
+                if (playableParcelable != null) {
+                    //startForeground(PlaybackConstants.NOTIFICATION_ID_FOREGROUND_SERVICE, prepareNotification(playableParcelable))
                     playAudio(playableParcelable)
                 }
             }
-            NotifConstants.ACTION.STOP_ACTION -> {
+            PlaybackConstants.ACTION.PAUSE_ACTION -> {
+                Log.d(TAG, "Received user stopped foreground intent")
+                simpleExoPlayer.playWhenReady = false
+            }
+            PlaybackConstants.ACTION.CONTINUE_ACTION -> {
+                Log.d(TAG, "Received user stopped foreground intent")
+                simpleExoPlayer.playWhenReady = true
+            }
+            PlaybackConstants.ACTION.STOP_ACTION -> {
                 Log.d(TAG, "Received user stopped foreground intent")
                 stopForeground(true)
                 stopSelf()
@@ -90,11 +96,11 @@ class AudioPlayerService : Service() {
         return Service.START_NOT_STICKY
     }
 
-    // its connected, so change the notification text
+    // its connected, so change the item_notification text
     private fun playAudio(playableParcelable: PlayableParcelable) {
         // after 10 seconds its connected
-        stateService = NotifConstants.STATE_SERVICE.PLAYING
-        startForeground(NotifConstants.NOTIFICATION_ID_FOREGROUND_SERVICE, prepareNotification())
+        stateService = PlaybackConstants.STATE_SERVICE.PLAYING
+        startForeground(PlaybackConstants.NOTIFICATION_ID_FOREGROUND_SERVICE, prepareNotification(playableParcelable))
 
         simpleExoPlayer.playWhenReady = true
 
@@ -110,7 +116,7 @@ class AudioPlayerService : Service() {
     }
 
 
-    private fun prepareNotification(): Notification {
+    private fun prepareNotification(playableParcelable: PlayableParcelable?): Notification {
         // handle build version above android oreo
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && mNotificationManager!!.getNotificationChannel(FOREGROUND_CHANNEL_ID) == null) {
             val name = getString(R.string.app_name)
@@ -121,7 +127,7 @@ class AudioPlayerService : Service() {
         }
 
         val notificationIntent = Intent(this, MainActivity::class.java)
-        notificationIntent.action = NotifConstants.ACTION.MAIN_ACTION
+        notificationIntent.action = PlaybackConstants.ACTION.MAIN_ACTION
         notificationIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
         // if min sdk goes below honeycomb
@@ -135,18 +141,22 @@ class AudioPlayerService : Service() {
 
         // make a stop intent
         val stopIntent = Intent(this, AudioPlayerService::class.java)
-        stopIntent.action = NotifConstants.ACTION.STOP_ACTION
-        val pendingStopIntent = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val remoteViews = RemoteViews(packageName, R.layout.notification)
-        remoteViews.setOnClickPendingIntent(R.id.btn_stop, pendingStopIntent)
+        stopIntent.action = PlaybackConstants.ACTION.STOP_ACTION
+        val remoteViews = RemoteViews(packageName, R.layout.item_notification)
 
-        // if it is connected
-        when (stateService) {
-            NotifConstants.STATE_SERVICE.NOT_PLAYING -> remoteViews.setTextViewText(R.id.tv_state, "DISCONNECTED")
-            NotifConstants.STATE_SERVICE.PLAYING -> remoteViews.setTextViewText(R.id.tv_state, "PLAYING")
-        }
+        //val pendingStopIntent = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        //remoteViews.setOnClickPendingIntent(R.id.btn_stop, pendingStopIntent)
 
-        // notification builder
+        remoteViews.setTextViewText(R.id.textView6, playableParcelable?.name)
+        remoteViews.setTextViewText(R.id.description, playableParcelable?.description)
+
+//        // if it is connected
+//        when (stateService) {
+//            PlaybackConstants.STATE_SERVICE.NOT_PLAYING -> remoteViews.setTextViewText(R.id.tv_state, "DISCONNECTED")
+//            PlaybackConstants.STATE_SERVICE.PLAYING -> remoteViews.setTextViewText(R.id.tv_state, "PLAYING")
+//        }
+
+        // item_notification builder
         val notificationBuilder: NotificationCompat.Builder
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationBuilder = NotificationCompat.Builder(this, FOREGROUND_CHANNEL_ID)
@@ -176,14 +186,32 @@ class AudioPlayerService : Service() {
 
         private val PLAYABLE = "PLAYABLE"
 
-        private var stateService = NotifConstants.STATE_SERVICE.NOT_PLAYING
+        private var stateService = PlaybackConstants.STATE_SERVICE.NOT_PLAYING
 
 
         fun startService(context: Context, playableParcelable: PlayableParcelable) {
             val startIntent = Intent(context, AudioPlayerService::class.java)
-            startIntent.action = NotifConstants.ACTION.START_ACTION
+            startIntent.action = PlaybackConstants.ACTION.START_ACTION
             startIntent.putExtra(PLAYABLE, playableParcelable)
             context.startService(startIntent)
+        }
+
+        fun pausePlayback(context: Context) {
+            val intent = Intent(context, AudioPlayerService::class.java)
+            intent.action = PlaybackConstants.ACTION.PAUSE_ACTION
+            context.startService(intent)
+        }
+
+        fun continuePlayback(context: Context) {
+            val intent = Intent(context, AudioPlayerService::class.java)
+            intent.action = PlaybackConstants.ACTION.CONTINUE_ACTION
+            context.startService(intent)
+        }
+
+        fun stopService(context: Context) {
+            val stopIntent = Intent(context, AudioPlayerService::class.java)
+            stopIntent.action = PlaybackConstants.ACTION.STOP_ACTION
+            context.startService(stopIntent)
         }
     }
 }

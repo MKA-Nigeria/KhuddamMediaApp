@@ -40,8 +40,8 @@ data class PlaylistParcelable(val name: String,
         }
 
         fun fromPlayList(playList: SoundCloudPlayList): PlaylistParcelable {
-            return PlaylistParcelable(playList.title, playList.description?:"",
-                    playList.artwork_url?:"N/A", playList.id.toString(), TYPE_PLAYLIST_SOUNDCLOUD)
+            return PlaylistParcelable(playList.title, playList.description ?: "N/A",
+                    playList.artwork_url ?: "N/A", playList.id.toString(), TYPE_PLAYLIST_SOUNDCLOUD)
         }
 
         @JvmField

@@ -7,6 +7,9 @@ import com.aliumujib.tabbarseed.di.modules.global.network.RepositoryModule
 import com.aliumujib.tabbarseed.di.scopes.ApplicationScope
 import com.aliumujib.tabbarseed.utils.AppSchedulers
 import com.aliumujib.tabbarseed.utils.Schedulers
+import com.aliumujib.tabbarseed.utils.imageloader.ImageLoader
+import com.aliumujib.tabbarseed.utils.imageloader.PicassoImageLoader
+import com.squareup.picasso.Picasso
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -26,6 +29,12 @@ import dagger.Provides
     @Provides
     fun providesAppScheduler(): Schedulers {
         return AppSchedulers()
+    }
+
+    @ApplicationScope
+    @Provides
+    fun providesImageLoader(): ImageLoader {
+        return PicassoImageLoader(Picasso.get())
     }
 
     /**
