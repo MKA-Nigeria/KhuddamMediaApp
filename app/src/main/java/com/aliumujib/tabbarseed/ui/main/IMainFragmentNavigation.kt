@@ -10,8 +10,10 @@ import com.aliumujib.tabbarseed.data.model.*
 import com.aliumujib.tabbarseed.ui.main.fragments.discover.DiscoverFragment
 import com.aliumujib.tabbarseed.ui.main.fragments.me.MeFragment
 import com.aliumujib.tabbarseed.ui.main.fragments.playlistdetails.PlaylistDetailsFragment
+import com.aliumujib.tabbarseed.ui.main.fragments.podcasts.IAudioPlaybackVC
 import com.aliumujib.tabbarseed.ui.main.fragments.podcasts.PodcastsFragment
 import com.aliumujib.tabbarseed.ui.main.fragments.videos.VideosFragment
+import com.aliumujib.tabbarseed.ui.main.fragments.videos.videoplayer.IVideoPlayerVC
 import com.aliumujib.tabbarseed.ui.main.service.AudioPlayerService
 import com.aliumujib.tabbarseed.utils.FragNavController
 import com.aliumujib.tabbarseed.utils.FragmentHistory
@@ -43,17 +45,20 @@ interface IMainFragmentNavigation {
 
 class MainFragmentNavigation(private var activity: MainActivity,
                              private var audioPlaybackVC: IAudioPlaybackVC,
+                             private var videoPlayerVC: IVideoPlayerVC,
                              private var bundle: Bundle) : IMainFragmentNavigation,
         FragNavController.TransactionListener,
         FragNavController.RootFragmentListener {
 
     override fun playTrack(data: Track) {
+        videoPlayerVC.hidePlaybackViewForVideo()
         audioPlaybackVC.showPlaybackViewForAudio(PlayableParcelable.fromSoundCloudTrack(data))
         AudioPlayerService.startService(activity, PlayableParcelable.fromSoundCloudTrack(data))
     }
 
     override fun playVideo(data: PlayListItem) {
-
+        audioPlaybackVC.hidePlaybackViewForAudio()
+        videoPlayerVC.showPlaybackViewForVideo(PlayableParcelable.fromYoutubeVideo(data))
     }
 
     override fun openPlayListDetails(data: YoutubePlayList) {
@@ -86,7 +91,7 @@ class MainFragmentNavigation(private var activity: MainActivity,
         } else {
 
             if (fragmentHistory.isEmpty) {
-                activity.onBackPressed()
+                //activity.onBackPressed()
             } else {
 
                 if (fragmentHistory!!.stackSize > 1) {
@@ -143,6 +148,9 @@ class MainFragmentNavigation(private var activity: MainActivity,
                 .build()
 
         supportActionBar = (activity as AppCompatActivity).supportActionBar
+
+        audioPlaybackVC.setUp()
+        videoPlayerVC.setUp()
     }
 
     override fun pushFragment(fragment: Fragment) {

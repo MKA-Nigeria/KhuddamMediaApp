@@ -8,8 +8,8 @@ import com.aliumujib.tabbarseed.utils.imageloader.ImageLoader
 class ImageBindingAdapter(private val imageLoader: ImageLoader) {
 
     @BindingAdapter("bind:imageUrl")
-    fun loadImage(view: ImageView, imageUrl: String) {
-        imageLoader.load(url = imageUrl, imageView = view, fadeEffect = true)
+    fun loadImage(view: ImageView, imageUrl: String?) {
+        imageLoader.load(url = imageUrl ?: "N/A", imageView = view, fadeEffect = true)
     }
 
 

@@ -10,23 +10,23 @@ import com.aliumujib.tabbarseed.utils.extensions.mutableLiveDataOf
 class VideosViewModel(var fragmentNavigation: IMainFragmentNavigation,
                       var videoRepository: IYoutubeRepository) : BaseViewModel() {
 
-     val listOfChannelPlaylists = mutableLiveDataOf<List<YoutubePlayList>>()
+    val listOfChannelPlaylists = mutableLiveDataOf<List<YoutubePlayList>>()
     val listOfChannelVideos = mutableLiveDataOf<List<PlayListItem>>()
 
     override fun setUp() {
         super.setUp()
 
-        addDisposable(videoRepository.getYoutubeChannelPlaylists(listOf("UCpEHs4jtfj1sTo1g-ubDyMg")).subscribe({
+        addDisposable(videoRepository.getYoutubeChannelPlaylists(listOf("UCpEHs4jtfj1sTo1g-ubDyMg", "UC9UbtMxsh5IH_LOnp7oqmCw")).subscribe({
             listOfChannelPlaylists.value = it
-        },{
+        }, {
             it.printStackTrace()
             handleError(it)
         }))
 
 
-        addDisposable(videoRepository.getYoutubeChannelVideos(listOf("UCpEHs4jtfj1sTo1g-ubDyMg")).subscribe({
+        addDisposable(videoRepository.getYoutubeChannelVideos(listOf("UCpEHs4jtfj1sTo1g-ubDyMg", "UC9UbtMxsh5IH_LOnp7oqmCw")).subscribe({
             listOfChannelVideos.value = it
-        },{
+        }, {
             it.printStackTrace()
             handleError(it)
         }))

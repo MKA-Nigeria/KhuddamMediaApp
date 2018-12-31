@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.aliumujib.tabbarseed.R
 import com.aliumujib.tabbarseed.ui.base.BaseActivity
+import com.aliumujib.tabbarseed.ui.main.fragments.podcasts.IAudioPlaybackVC
 import com.aliumujib.tabbarseed.utils.Utils
 import com.google.android.material.tabs.TabLayout
 import dagger.android.AndroidInjection
@@ -46,8 +47,6 @@ class MainActivity : BaseActivity(),
     @Inject
     lateinit var mainFragmentNavigation: IMainFragmentNavigation
 
-    @Inject
-    lateinit var audioPlaybackVC: IAudioPlaybackVC
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +63,6 @@ class MainActivity : BaseActivity(),
 
 
         mainFragmentNavigation.setUp()
-        audioPlaybackVC.setUp()
 
         bottom_tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {

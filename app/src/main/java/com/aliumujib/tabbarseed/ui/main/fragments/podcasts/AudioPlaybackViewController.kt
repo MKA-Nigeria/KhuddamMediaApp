@@ -1,4 +1,4 @@
-package com.aliumujib.tabbarseed.ui.main
+package com.aliumujib.tabbarseed.ui.main.fragments.podcasts
 
 import android.os.Handler
 import android.util.Log
@@ -7,6 +7,7 @@ import android.widget.*
 import androidx.cardview.widget.CardView
 import com.aliumujib.tabbarseed.R
 import com.aliumujib.tabbarseed.data.model.PlayableParcelable
+import com.aliumujib.tabbarseed.ui.main.MainActivity
 import com.aliumujib.tabbarseed.ui.main.service.AudioPlayerService
 import com.aliumujib.tabbarseed.utils.PlaybackStatusView
 import com.aliumujib.tabbarseed.utils.extensions.getScreenWidth
@@ -14,14 +15,11 @@ import com.aliumujib.tabbarseed.utils.extensions.setWidth
 import com.aliumujib.tabbarseed.utils.imageloader.ImageLoader
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.Timeline
 import com.google.android.exoplayer2.ui.DefaultTimeBar
 import com.google.android.exoplayer2.ui.TimeBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import timber.log.Timber
 import javax.inject.Inject
-import androidx.core.os.HandlerCompat.postDelayed
-import androidx.databinding.adapters.SeekBarBindingAdapter.setProgress
 
 
 interface IAudioPlaybackVC {
@@ -49,7 +47,7 @@ class AudioPlaybackViewController @Inject constructor(var activity: MainActivity
 
     private var seekPlayerProgress: DefaultTimeBar? = null
     private var handler: Handler? = null
-    private var btnPlayPauseExpanded: ImageButton? = null
+    private var btnPlayPauseExpanded: PlaybackStatusView? = null
     private var txtCurrentTime: TextView? = null
     private var txtEndTime: TextView? = null
 
@@ -64,6 +62,7 @@ class AudioPlaybackViewController @Inject constructor(var activity: MainActivity
         playPause = activity.findViewById(R.id.play_pause)
         nowPlayingCardView = activity.findViewById(R.id.cardView)
         scrollView = activity.findViewById(R.id.scrollView)
+        btnPlayPauseExpanded = activity.findViewById(R.id.imageView6)
 
         seekPlayerProgress = activity.findViewById(R.id.exo_progress)
         txtCurrentTime = activity.findViewById(R.id.exo_position)
@@ -74,7 +73,14 @@ class AudioPlaybackViewController @Inject constructor(var activity: MainActivity
         bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
         bottomSheetBehavior?.setBottomSheetCallback(PanelSlideListener(activity))
 
+
         collapseToCardBtn?.setOnClickListener {
+            showCardPlayer()
+        }
+
+        if (exoPlayer.playWhenReady && exoPlayer.playbackState == Player.STATE_READY) {
+            playPause?.isPlaying = PlaybackStatusView.PLAYED
+            btnPlayPauseExpanded?.isPlaying = PlaybackStatusView.PLAYED
             showCardPlayer()
         }
 
@@ -86,6 +92,7 @@ class AudioPlaybackViewController @Inject constructor(var activity: MainActivity
                     hidePlaybackViewForAudio()
                 } else if (playWhenReady && playbackState == Player.STATE_READY) {
                     playPause?.isPlaying = PlaybackStatusView.PLAYED
+                    btnPlayPauseExpanded?.isPlaying = PlaybackStatusView.PLAYED
                     showCardPlayer()
                     initializeSeekBarAndTimers()
                 }
@@ -93,16 +100,19 @@ class AudioPlaybackViewController @Inject constructor(var activity: MainActivity
 
         })
 
-        playPause?.setOnBookmarkStatusChangeListener(object : PlaybackStatusView.OnPlaybackStatusChangeListener {
-            override fun onStatusChanged(isPlaying: Int) {
-                if (isPlaying == PlaybackStatusView.PAUSED) {
-                    AudioPlayerService.pausePlayback(activity)
-                } else {
-                    AudioPlayerService.continuePlayback(activity)
-                }
-            }
-        })
+        playPause?.setOnPlaybackStatusChangeListener(playbackBtnStatusListener)
+        btnPlayPauseExpanded?.setOnPlaybackStatusChangeListener(playbackBtnStatusListener)
 
+    }
+
+    var playbackBtnStatusListener = object : PlaybackStatusView.OnPlaybackStatusChangeListener {
+        override fun onStatusChanged(isPlaying: Int) {
+            if (isPlaying == PlaybackStatusView.PAUSED) {
+                AudioPlayerService.pausePlayback(activity)
+            } else {
+                AudioPlayerService.continuePlayback(activity)
+            }
+        }
     }
 
     private fun initializeSeekBarAndTimers() {
@@ -133,14 +143,14 @@ class AudioPlaybackViewController @Inject constructor(var activity: MainActivity
     }
 
 
-    private fun updateProgress(){
+    private fun updateProgress() {
 
         //get current progress
         Log.d(TAG, "Current position: ${exoPlayer.contentPosition} FORMATTED: ${formatMilliSecondsToTime(exoPlayer.contentPosition)}")
         seekPlayerProgress?.setPosition(exoPlayer.currentPosition)
         txtCurrentTime?.text = formatMilliSecondsToTime(exoPlayer.contentPosition)
 
-        handler?.postDelayed(runnable,1000)
+        handler?.postDelayed(runnable, 1000)
 
     }
 

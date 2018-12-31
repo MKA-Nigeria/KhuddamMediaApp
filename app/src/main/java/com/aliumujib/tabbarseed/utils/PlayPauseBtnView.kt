@@ -76,7 +76,7 @@ class PlaybackStatusView : AppCompatImageButton {
         }
     }
 
-    fun setOnBookmarkStatusChangeListener(onPlaybackStatusChangeListener: OnPlaybackStatusChangeListener) {
+    fun setOnPlaybackStatusChangeListener(onPlaybackStatusChangeListener: OnPlaybackStatusChangeListener) {
         this.onPlayBackStatusChangeListener = onPlaybackStatusChangeListener
     }
 
