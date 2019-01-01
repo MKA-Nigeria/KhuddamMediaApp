@@ -1,5 +1,7 @@
 package com.aliumujib.tabbarseed.ui.main.fragments.videos.videoplayer
 
+import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AnticipateOvershootInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -222,4 +224,19 @@ class VideoPlayerViewController @Inject constructor(var activity: MainActivity) 
         hidePlaybackViewForVideo()
     }
 
+    fun addTouchHandlerToView(view: View) {
+        view.setOnTouchListener { p0, p1 ->
+            Log.d(TAG, "$view touched $p1")
+
+            animationTouchListener?.onTouch(activity.frmVideoContainer, p1)
+            //activity.frmVideoContainer.onTouchEvent(p1)
+            return@setOnTouchListener true
+        }
+    }
+
+
+    companion object {
+
+        val TAG = VideoPlayerViewController::class.java.simpleName
+    }
 }

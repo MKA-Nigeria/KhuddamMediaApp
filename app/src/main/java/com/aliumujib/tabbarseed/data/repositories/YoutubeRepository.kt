@@ -10,6 +10,13 @@ import javax.inject.Inject
 class YoutubeRepository @Inject constructor(var youtubeService: YoutubeService,
                                             var schedulers: Schedulers) : IYoutubeRepository {
 
+
+    override fun getVideoDetails(id: String): Observable<YoutubeVideo> {
+        return youtubeService.getVideoItems(constructQueriesForVideoID(id)).map {
+            it.items.first()
+        }
+    }
+
     override fun getPlayListDetails(id: String): Observable<PlaylistItemResponse> {
         return youtubeService.getPlaylistItems(constructQueriesForPlayListID(id))
                 .subscribeOn(schedulers.subscribeOn)
@@ -67,8 +74,17 @@ class YoutubeRepository @Inject constructor(var youtubeService: YoutubeService,
     /**
      *
      * TODO
-     * Replace both these methods with an interceptor
+     * Replace all these methods with an interceptor
      * **/
+
+    fun constructQueriesForVideoID(string: String): HashMap<String, Any> {
+        val hashMap = HashMap<String, Any>()
+        hashMap["id"] = string
+        hashMap["maxResults"] = 25
+//        hashMap["part"] = "snippet,contentDetails"
+//        hashMap["key"] = "AIzaSyCzTQAdni52z7AR6vLPBVoM75FES9BIUTw"
+        return hashMap
+    }
 
     fun constructQueriesForChannelID(string: String): HashMap<String, Any> {
         val hashMap = HashMap<String, Any>()

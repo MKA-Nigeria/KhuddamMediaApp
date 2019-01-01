@@ -4,5 +4,6 @@
     <dimen name="pause_bar_width">5dp</dimen>
     <dimen name="pause_bar_distance">4dp</dimen>
     <dimen name="pause_bar_height">14dp</dimen>
+    <dimen name="preview_image_height">250dp</dimen>
 
 </resources>

@@ -67,7 +67,7 @@ ext {
     picassoVersion = '2.71828'
     leakCanaryVersion = '1.5'
     dagger_version = "2.16"
-    anko_version='0.10.8'
+    anko_version = '0.10.8'
 }
 
 dependencies {
@@ -87,7 +87,8 @@ dependencies {
     implementation "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}"
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation "org.jetbrains.anko:anko:$anko_version"
-    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:9.0.1'
+    implementation 'com.github.MKA-Nigeria:android-youtube-player:10.0.0'
+    //implementation files('libs/YouTubeAndroidPlayerApi.jar')
 
 //    implementation "androidx.appcompat:appcompat:1.0.0"
 //    implementation "com.google.android.material:material:1.0.0"

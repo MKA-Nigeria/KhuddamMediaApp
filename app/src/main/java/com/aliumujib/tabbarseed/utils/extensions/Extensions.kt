@@ -33,6 +33,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.aliumujib.tabbarseed.R
+import com.pierfrancescosoffritti.androidyoutubeplayer.player.YouTubePlayerView
 
 
 /**
@@ -235,7 +236,11 @@ fun Context.toast(message: String, isLong: Boolean = false) {
     Toast.makeText(this, message, if (isLong) Toast.LENGTH_LONG else Toast.LENGTH_SHORT).show()
 }
 
-
+fun YouTubePlayerView.getPlayerWebView():View  {
+    val buckTypes = this::class
+    var variableToInvoke  = buckTypes.members.find { it.name == "youTubePlayer" }
+    return variableToInvoke as View
+}
 
 inline fun ConstraintLayout.updateParams(constraintSet: ConstraintSet = ConstraintSet(), updates: ConstraintSet.() -> Unit) {
     constraintSet.clone(this)

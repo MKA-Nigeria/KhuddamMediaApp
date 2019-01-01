@@ -1,8 +1,6 @@
 package com.aliumujib.tabbarseed.data.contracts
 
-import com.aliumujib.tabbarseed.data.model.YoutubePlayList
-import com.aliumujib.tabbarseed.data.model.PlayListItem
-import com.aliumujib.tabbarseed.data.model.PlaylistItemResponse
+import com.aliumujib.tabbarseed.data.model.*
 import io.reactivex.Observable
 
 interface IYoutubeRepository {
@@ -11,6 +9,8 @@ interface IYoutubeRepository {
 
     fun getYoutubeChannelVideos(list: List<String>): Observable<List<PlayListItem>>
 
-   fun getPlayListDetails(id: String): Observable<PlaylistItemResponse>
+    fun getPlayListDetails(id: String): Observable<PlaylistItemResponse>
+
+    fun getVideoDetails(id: String): Observable<YoutubeVideo>
 
 }

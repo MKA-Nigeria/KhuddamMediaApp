@@ -11,6 +11,7 @@ import com.aliumujib.tabbarseed.ui.main.fragments.me.MeFragment
 import com.aliumujib.tabbarseed.ui.main.fragments.podcasts.PodcastsFragment
 import com.aliumujib.tabbarseed.ui.main.fragments.playlistdetails.PlaylistDetailsFragment
 import com.aliumujib.tabbarseed.ui.main.fragments.videos.VideosFragment
+import com.aliumujib.tabbarseed.ui.main.fragments.videos.videoplayer.fragments.YoutubeVideoPlayerFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -30,6 +31,10 @@ abstract class MainFragmentProvider {
     @PerFragment
     @ContributesAndroidInjector(modules = [MeModule::class])
     internal abstract fun bindsMeFragment(): MeFragment
+
+    @PerFragment
+    @ContributesAndroidInjector()
+    internal abstract fun bindsYoutubePlayerFragment(): YoutubeVideoPlayerFragment
 
     @PerFragment
     @ContributesAndroidInjector(modules = [DiscoverModule::class])
